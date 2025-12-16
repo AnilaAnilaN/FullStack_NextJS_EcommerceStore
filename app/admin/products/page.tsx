@@ -41,14 +41,16 @@ export default async function ProductsPage() {
               key={product._id}
               className="bg-white rounded-lg shadow overflow-hidden"
             >
-              <div className="relative h-48">
-                <Image
-                  src={product.images[0]}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              {product.images && product.images[0] && (
+                <div className="relative h-48">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
               <div className="p-4">
                 <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
                 <p className="text-gray-600 text-sm mb-2 line-clamp-2">
