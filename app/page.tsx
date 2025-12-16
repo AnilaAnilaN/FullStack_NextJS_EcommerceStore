@@ -27,7 +27,7 @@ export default async function HomePage() {
                 Discover Amazing Products
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8">
-                Shop the latest trends and timeless classics. 
+                Shop the latest trends and timeless classics.
                 Quality products at unbeatable prices.
               </p>
               <Link
@@ -38,14 +38,14 @@ export default async function HomePage() {
               </Link>
             </div>
 
-           {/* Right: Hero Image */}
-<div className="relative h-96 lg:h-125 flex items-center justify-center">
-  <img
-    src="/hero-image.svg"
-    alt="Hero"
-    className="max-h-full max-w-full object-contain"
-  />
-</div>
+            {/* Right: Hero Image */}
+            <div className="relative h-96 lg:h-125 flex items-center justify-center">
+              <img
+                src="/hero-image.svg"
+                alt="Hero"
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
           </div>
         </div>
       </section>
