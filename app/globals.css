@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: 121 113 234;
+    --color-primary-hover: 90 80 229;
+  }
+}
