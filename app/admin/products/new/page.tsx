@@ -24,7 +24,6 @@ export default function NewProductPage() {
     const files = Array.from(e.target.files || []);
     setImages(files);
 
-    // Create previews
     const previews = files.map((file) => URL.createObjectURL(file));
     setImagePreviews(previews);
   };
@@ -70,14 +69,12 @@ export default function NewProductPage() {
     setIsSubmitting(true);
 
     try {
-      // Upload images first
       const uploadedImages = await uploadImages();
       if (!uploadedImages) {
         setIsSubmitting(false);
         return;
       }
 
-      // Create product
       const productData = {
         name: formData.name,
         description: formData.description,
@@ -85,21 +82,15 @@ export default function NewProductPage() {
         category: formData.category,
         stock: parseInt(formData.stock),
         featured: formData.featured,
-        sizes: formData.sizes
-          ? formData.sizes.split(',').map((s) => s.trim())
-          : [],
-        colors: formData.colors
-          ? formData.colors.split(',').map((c) => c.trim())
-          : [],
+        sizes: formData.sizes ? formData.sizes.split(',').map((s) => s.trim()) : [],
+        colors: formData.colors ? formData.colors.split(',').map((c) => c.trim()) : [],
         images: uploadedImages.map((img) => img.url),
         imageIds: uploadedImages.map((img) => img.fileId),
       };
 
       const response = await fetch('/api/products', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData),
       });
 
@@ -127,34 +118,26 @@ export default function NewProductPage() {
         <div className="space-y-6">
           {/* Product Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Name *
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
             <input
               type="text"
               required
               value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="e.g., Classic T-Shirt"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description *
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
             <textarea
               required
               rows={4}
               value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Product description..."
             />
           </div>
@@ -162,36 +145,28 @@ export default function NewProductPage() {
           {/* Price and Stock */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price ($) *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Price ($) *</label>
               <input
                 type="number"
                 required
                 step="0.01"
                 min="0"
                 value={formData.price}
-                onChange={(e) =>
-                  setFormData({ ...formData, price: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="49.99"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Stock Quantity *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Stock Quantity *</label>
               <input
                 type="number"
                 required
                 min="0"
                 value={formData.stock}
-                onChange={(e) =>
-                  setFormData({ ...formData, stock: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="100"
               />
             </div>
@@ -199,17 +174,13 @@ export default function NewProductPage() {
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Category *
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Category *</label>
             <input
               type="text"
               required
               value={formData.category}
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="e.g., T-Shirts, Shoes, Accessories"
             />
           </div>
@@ -217,31 +188,23 @@ export default function NewProductPage() {
           {/* Sizes and Colors */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Sizes (comma separated)
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Sizes (comma separated)</label>
               <input
                 type="text"
                 value={formData.sizes}
-                onChange={(e) =>
-                  setFormData({ ...formData, sizes: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                onChange={(e) => setFormData({ ...formData, sizes: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="S, M, L, XL"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Colors (comma separated)
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Colors (comma separated)</label>
               <input
                 type="text"
                 value={formData.colors}
-                onChange={(e) =>
-                  setFormData({ ...formData, colors: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Red, Blue, Black"
               />
             </div>
@@ -249,26 +212,19 @@ export default function NewProductPage() {
 
           {/* Images */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Product Images * (You can select multiple)
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Product Images * (You can select multiple)</label>
             <input
               type="file"
               accept="image/*"
               multiple
               required
               onChange={handleImageChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             {imagePreviews.length > 0 && (
               <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                 {imagePreviews.map((preview, index) => (
-                  <img
-                    key={index}
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-32 object-cover rounded"
-                  />
+                  <img key={index} src={preview} alt={`Preview ${index + 1}`} className="w-full h-32 object-cover rounded" />
                 ))}
               </div>
             )}
@@ -280,23 +236,19 @@ export default function NewProductPage() {
               <input
                 type="checkbox"
                 checked={formData.featured}
-                onChange={(e) =>
-                  setFormData({ ...formData, featured: e.target.checked })
-                }
-                className="w-4 h-4 text-primary focus:ring-primary"
+                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                className="w-4 h-4 text-indigo-600 focus:ring-indigo-500"
               />
-              <span className="text-sm font-medium text-gray-700">
-                Mark as featured product
-              </span>
+              <span className="text-sm font-medium text-gray-700">Mark as featured product</span>
             </label>
           </div>
 
-          {/* Submit Button */}
+          {/* Buttons */}
           <div className="flex items-center space-x-4">
             <button
               type="submit"
               disabled={isSubmitting || uploadingImages}
-              className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
               {uploadingImages
                 ? 'Uploading Images...'
