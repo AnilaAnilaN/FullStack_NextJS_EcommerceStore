@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Upload Test</title>
+</head>
+<body>
+  <h1>Test Image Upload</h1>
+
+  <form id="upload-form">
+    <input type="file" id="file" accept="image/*" required />
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="result" style="margin-top: 20px;"></div>
+
+  <script>
+    const form = document.getElementById('upload-form');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fileInput = document.getElementById('file');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Please select a file to upload');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      resultDiv.innerHTML = 'Uploading...';
+
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          resultDiv.innerHTML = `
+            <p>Upload successful!</p>
+            <p><strong>File URL:</strong> <a href="${data.data.url}" target="_blank">${data.data.url}</a></p>
+            <img src="${data.data.url}" alt="Uploaded Image" style="max-width: 300px; margin-top: 10px;" />
+          `;
+        } else {
+          resultDiv.innerHTML = `<p style="color:red">Upload failed: ${data.error}</p>`;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = `<p style="color:red">Error: ${err.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
