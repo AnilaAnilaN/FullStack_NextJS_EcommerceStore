@@ -75,6 +75,13 @@ export default function NewProductPage() {
         return;
       }
 
+      // If user selected images but uploads failed for some of them, abort
+      if (images.length > 0 && uploadedImages.length !== images.length) {
+        alert('One or more image uploads failed; product not created. Please try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
       const productData = {
         name: formData.name,
         description: formData.description,

@@ -4,9 +4,9 @@ export interface IProduct extends Document {
   name: string;
   description: string;
   price: number;
-  images: string[];
-  imageIds: string[];
-  category: string;
+  image: string;
+  imageId?: string; // ImageKit file ID for deletion
+  category: 'clothing' | 'shoes' | 'accessories';
   sizes?: string[];
   colors?: string[];
   stock: number;
@@ -33,26 +33,28 @@ const ProductSchema = new Schema<IProduct>(
       required: [true, 'Product price is required'],
       min: [0, 'Price cannot be negative'],
     },
-    images: {
-      type: [String],
-      required: [true, 'At least one image is required'],
-      validate: {
-        validator: function(v: string[]) {
-          return v && v.length > 0;
-        },
-        message: 'Product must have at least one image',
-      },
+    image: {
+      type: String,
+      required: [true, 'Product image is required'],
     },
-    imageIds: {
-      type: [String],
-      default: [],
+    imageId: {
+      type: String,
     },
     category: {
       type: String,
       required: [true, 'Category is required'],
+      enum: ['clothing', 'shoes', 'accessories'],
     },
-    sizes: [String],
-    colors: [String],
+    sizes: [
+      {
+        type: String,
+      },
+    ],
+    colors: [
+      {
+        type: String,
+      },
+    ],
     stock: {
       type: Number,
       required: [true, 'Stock quantity is required'],
@@ -69,8 +71,8 @@ const ProductSchema = new Schema<IProduct>(
   }
 );
 
-ProductSchema.index({ name: 'text', description: 'text' });
+// Index for faster queries
 ProductSchema.index({ category: 1, featured: 1 });
+ProductSchema.index({ name: 'text', description: 'text' });
 
-export default mongoose.models.Product || 
-  mongoose.model<IProduct>('Product', ProductSchema);
+export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
